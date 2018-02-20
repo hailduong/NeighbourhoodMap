@@ -1,0 +1,35 @@
+{
+    "name": "NeighborhoodMap",
+    "version": "0.1.0",
+    "dependencies": {
+        "babel-cli": "^6.24.1",
+        "babel-core": "^6.25.0",
+        "babel-loader": "^7.1.1",
+        "babel-plugin-syntax-dynamic-import": "^6.18.0",
+        "babel-plugin-syntax-flow": "^6.18.0",
+        "babel-plugin-transform-class-properties": "^6.24.1",
+        "babel-plugin-transform-es2015-parameters": "^6.24.1",
+        "babel-plugin-transform-object-assign": "^6.22.0",
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "babel-polyfill": "^6.26.0",
+        "babel-preset-env": "^1.6.0",
+        "babel-preset-es2015": "^6.24.1",
+        "babel-preset-flow": "^6.23.0",
+        "babel-preset-react": "^6.24.1",
+        "bootstrap": "^4.0.0",
+        "express": "^4.16.2",
+        "jquery": "^3.3.1",
+        "react": "16.0.0-beta.5",
+        "react-dom": "^16.2.0",
+        "react-redux": "^5.0.7",
+        "react-router": "^4.2.0",
+        "react-router-dom": "^4.2.2",
+        "redux": "^3.7.2",
+        "webpack": "^3.11.0"
+    },
+    "scripts": {
+        "serve": "node server.js",
+        "build": "./node_modules/.bin/webpack --config webpack.dev.config.babel.js",
+        "release": "./node_modules/.bin/webpack --config webpack.prod.config.babel.js"
+    }
+}
