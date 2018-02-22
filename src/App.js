@@ -21,17 +21,17 @@ class App extends React.Component {
 	render() {
 
 		return (
-			<div>
+			<div className="animated fadeIn">
 				<Nav/>
 				<div className="container-fluid">
 					<div className="row">
-						<aside className="col-sm-3 neighborhood-map__aside">
+						<aside className="col-lg-3 neighborhood-map__aside left-aside">
 							<Filter setAppState={this.setAppState} currentKeyword={this.state.currentKeyword}/>
 						</aside>
-						<main className="col-sm-6 neighborhood-map__main">
+						<main className="col-lg-6 neighborhood-map__main">
 							<Map setAppState={this.setAppState} currentKeyword={this.state.currentKeyword}/>
 						</main>
-						<aside className="col-sm-3 neighborhood-map__right-aside">
+						<aside className="col-lg-3 neighborhood-map__aside right-aside">
 							<PopularPlaces popularPlaces={this.state.popularPlaces} selectedCity={this.state.selectedCity}/>
 						</aside>
 					</div>

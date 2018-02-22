@@ -16,3 +16,7 @@ export const getMatchedPlaces = (keyword = "") => {
 export const getLongLat = (place) => {
 	return placesList[place]
 };
+
+export const navbarHeight = 80;
+export const marginBottom = 40;
+export const isDesktop = $(document).width() >= 992;

@@ -1,8 +1,36 @@
+$screen-sm-max:992px;
+
+// General
+body{ background:#f6f9fc; }
+.hidden{ display:none !important }
+.shadow{ box-shadow:0 2px 10px 0 rgba(0, 0, 0, .1) }
+.animated{ animation-duration:0.3s; -webkit-animation-duration:0.3s; }
+// App
 .neighborhood-map{
+    &__navbar{
+        background:linear-gradient(to right, #4caf50, #cddc39);
+
+        .navbar-brand{ color:#fff; font-weight:100; text-transform:uppercase;
+            strong{ font-weight:700; }
+        }
+    }
+
     &__aside{
-        .popular-places{ height:300px; overflow:auto }
+        .filter{
+            .list-group-item{ padding:0.4rem 1.25rem; cursor:pointer; transition:all 0.3s; }
+            .list-group-item:hover{ background-color:#e8f5e9; color:#4caf50 }
+        }
+        .popular-places{
+            .list-group{ overflow:auto; }
+            .list-group-item{ border-left:0; border-right:0; }
+        }
     }
     &__main{
-        #map{ min-height:500px; }
+        #map{ min-height:500px; border-radius:10px; }
+
+        /* Mobile devices (MOBILE < 992px) */
+        @media (max-width:$screen-sm-max) {
+            #map{ min-height:400px; }
+        }
     }
 }

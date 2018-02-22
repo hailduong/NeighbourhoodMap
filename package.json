@@ -2,6 +2,7 @@
     "name": "NeighborhoodMap",
     "version": "0.1.0",
     "dependencies": {
+        "animate.css": "^3.6.1",
         "babel-cli": "^6.24.1",
         "babel-core": "^6.25.0",
         "babel-loader": "^7.1.1",
@@ -25,6 +26,7 @@
         "react-router": "^4.2.0",
         "react-router-dom": "^4.2.2",
         "redux": "^3.7.2",
+        "sweetalert": "^2.1.0",
         "webpack": "^3.11.0"
     },
     "scripts": {

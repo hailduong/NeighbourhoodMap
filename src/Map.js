@@ -1,5 +1,6 @@
 import React from "react";
-import {getMatchedPlaces, placesList, getLongLat} from "./misc/misc";
+import {getMatchedPlaces, placesList, getLongLat, navbarHeight, marginBottom, isDesktop} from "./misc/misc";
+import swal from "sweetalert";
 
 let map = null;
 
@@ -12,8 +13,11 @@ export default class Map extends React.Component {
 	}
 
 	render() {
+		const mapHeight = isDesktop ? $(window).height() - navbarHeight - marginBottom : "auto";
+		const styles = {height: mapHeight};
+
 		return (
-			<div id="map"></div>
+			<div className="shadow mb-4" id="map" style={styles}></div>
 		)
 	}
 
@@ -22,7 +26,7 @@ export default class Map extends React.Component {
 	};
 
 	initMap = () => {
-		const vietnam = {lat: 14.0583, lng: 108.2772};
+		const vietnam = {lat: 16.4498, lng: 107.5624};
 		this.map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 5,
 			center: vietnam
@@ -53,14 +57,22 @@ export default class Map extends React.Component {
 			near: place
 		});
 
+		// TODO: Scroll down to the detail section on mobile
 		marker.addListener('click', () => {
 			// Fetch information of this place
 			fetch(`https://api.foursquare.com/v2/venues/search?${params}`)
 				.then(data => data.json())
-				.then((data) => this.setAppState({
-					popularPlaces: data.response.venues,
-					selectedCity: place
-				}))
+				.then((data) => {
+						this.setAppState({
+							popularPlaces: data.response.venues,
+							selectedCity: place
+						});
+					}
+				)
+				.catch(error => {
+					console.log('ERROR: ', error);
+					swal("Oops", "Failed to get data for this location. Please try again", "error")
+				})
 		})
 	};
 

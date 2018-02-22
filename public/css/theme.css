@@ -1,7 +1,43 @@
-.neighborhood-map__aside .popular-places {
-  height: 300px;
+body {
+  background: #f6f9fc; }
+
+.hidden {
+  display: none !important; }
+
+.shadow {
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1); }
+
+.animated {
+  animation-duration: 0.3s;
+  -webkit-animation-duration: 0.3s; }
+
+.neighborhood-map__navbar {
+  background: linear-gradient(to right, #4caf50, #cddc39); }
+  .neighborhood-map__navbar .navbar-brand {
+    color: #fff;
+    font-weight: 100;
+    text-transform: uppercase; }
+    .neighborhood-map__navbar .navbar-brand strong {
+      font-weight: 700; }
+.neighborhood-map__aside .filter .list-group-item {
+  padding: 0.4rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s; }
+.neighborhood-map__aside .filter .list-group-item:hover {
+  background-color: #e8f5e9;
+  color: #4caf50; }
+.neighborhood-map__aside .popular-places .list-group {
   overflow: auto; }
-.neighborhood-map__main #map {
-  min-height: 500px; }
+.neighborhood-map__aside .popular-places .list-group-item {
+  border-left: 0;
+  border-right: 0; }
+.neighborhood-map__main {
+  /* Mobile devices (MOBILE < 992px) */ }
+  .neighborhood-map__main #map {
+    min-height: 500px;
+    border-radius: 10px; }
+  @media (max-width: 992px) {
+    .neighborhood-map__main #map {
+      min-height: 400px; } }
 
 /*# sourceMappingURL=theme.css.map */
