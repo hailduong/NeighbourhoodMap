@@ -1,6 +1,8 @@
 .neighborhood-map{
-    &__aside{ }
+    &__aside{
+        .popular-places{ height:300px; overflow:auto }
+    }
     &__main{
-        #map{min-height:500px;}
+        #map{ min-height:500px; }
     }
 }

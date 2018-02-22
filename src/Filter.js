@@ -34,7 +34,7 @@ export default class Filter extends React.Component {
 															   className="list-group-item">{item}</li>);
 
 		return (
-			<div className="filter mt-3">
+			<div className="filter mt-3 mb-3">
 				<form className="form-inline mb-3">
 					<input value={this.props.currentKeyword}
 						   className="form-control col-sm-8" type="text"

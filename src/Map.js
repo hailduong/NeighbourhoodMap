@@ -17,6 +17,10 @@ export default class Map extends React.Component {
 		)
 	}
 
+	setAppState = (state) => {
+		this.props.setAppState(state)
+	};
+
 	initMap = () => {
 		const vietnam = {lat: 14.0583, lng: 108.2772};
 		this.map = new google.maps.Map(document.getElementById('map'), {
@@ -39,6 +43,25 @@ export default class Map extends React.Component {
 		});
 
 		this.markers.push(marker);
+
+		// Bind event lisenters
+
+		const params = $.param({
+			client_id: "HFFF3KWZJWWRQFVE5MG0HLB5MGLBKKPLZLNCBSQHS4IHU12T",
+			client_secret: "U21OHD13QXZ0FUO0AXU4VQ5CTNJ5VAIF3TIMIWISTNJWO00N",
+			v: "20180220",
+			near: place
+		});
+
+		marker.addListener('click', () => {
+			// Fetch information of this place
+			fetch(`https://api.foursquare.com/v2/venues/search?${params}`)
+				.then(data => data.json())
+				.then((data) => this.setAppState({
+					popularPlaces: data.response.venues,
+					selectedCity: place
+				}))
+		})
 	};
 
 	clearAllMarkers = () => {
@@ -51,11 +74,11 @@ export default class Map extends React.Component {
 	}
 
 	setMarkers() {
-		
+
 		// Set timeout to add a little delay when users type.
-		
+
 		if (!!this.setMarkerTimeout) clearTimeout(this.setMarkerTimeout);
-		
+
 		this.setMarkerTimeout = setTimeout(() => {
 			this.clearAllMarkers();
 			const currentKeyword = this.props.currentKeyword;
