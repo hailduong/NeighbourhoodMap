@@ -13,10 +13,14 @@ body {
 
 .neighborhood-map__navbar {
   background: linear-gradient(to right, #4caf50, #cddc39); }
+  .neighborhood-map__navbar h1 {
+    margin-bottom: 0;
+    line-height: 20px; }
   .neighborhood-map__navbar .navbar-brand {
     color: #fff;
     font-weight: 100;
-    text-transform: uppercase; }
+    text-transform: uppercase;
+    transition: color 0.3s; }
     .neighborhood-map__navbar .navbar-brand strong {
       font-weight: 700; }
 .neighborhood-map__aside .filter .list-group-item {
@@ -31,6 +35,13 @@ body {
 .neighborhood-map__aside .popular-places .list-group-item {
   border-left: 0;
   border-right: 0; }
+.neighborhood-map__aside .popular-places .icon-info {
+  margin-left: 10px;
+  border: 1px solid black;
+  border-radius: 50%;
+  padding: 4px;
+  opacity: 0.5;
+  cursor: pointer; }
 .neighborhood-map__main {
   /* Mobile devices (MOBILE < 992px) */ }
   .neighborhood-map__main #map {

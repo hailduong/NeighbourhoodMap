@@ -28,7 +28,7 @@ class App extends React.Component {
 						<aside className="col-lg-3 neighborhood-map__aside left-aside">
 							<Filter setAppState={this.setAppState} currentKeyword={this.state.currentKeyword}/>
 						</aside>
-						<main className="col-lg-6 neighborhood-map__main">
+						<main role="main" className="col-lg-6 neighborhood-map__main">
 							<Map setAppState={this.setAppState} currentKeyword={this.state.currentKeyword}/>
 						</main>
 						<aside className="col-lg-3 neighborhood-map__aside right-aside">

@@ -865,7 +865,7 @@ var App = function (_React$Component) {
 						),
 						_react2.default.createElement(
 							"main",
-							{ className: "col-lg-6 neighborhood-map__main" },
+							{ role: "main", className: "col-lg-6 neighborhood-map__main" },
 							_react2.default.createElement(_Map2.default, { setAppState: this.setAppState, currentKeyword: this.state.currentKeyword })
 						),
 						_react2.default.createElement(
@@ -18557,15 +18557,19 @@ var Nav = function (_React$Component) {
 		value: function render() {
 			return _react2.default.createElement(
 				"nav",
-				{ className: "navbar navbar-expand-lg navbar-light neighborhood-map__navbar shadow mb-4" },
+				{ role: "navigation", className: "navbar navbar-expand-lg navbar-light neighborhood-map__navbar shadow mb-4" },
 				_react2.default.createElement(
-					"a",
-					{ className: "navbar-brand", href: "#" },
-					"Neighbourhood",
+					"h1",
+					null,
 					_react2.default.createElement(
-						"strong",
-						null,
-						"Map"
+						"a",
+						{ tabIndex: "-1", className: "navbar-brand", href: "#" },
+						"Neighbourhood",
+						_react2.default.createElement(
+							"strong",
+							null,
+							"Map"
+						)
 					)
 				)
 			);
@@ -18644,7 +18648,7 @@ var Filter = function (_React$Component) {
 			var filteredPlaceNodes = matchPlaces.map(function (item) {
 				return _react2.default.createElement(
 					"li",
-					{ key: item, onClick: _this2.handleLocationClick,
+					{ key: item, tabIndex: "1", onClick: _this2.handleLocationClick,
 						className: "list-group-item" },
 					item
 				);
@@ -18672,6 +18676,7 @@ var Filter = function (_React$Component) {
 						_react2.default.createElement(
 							"a",
 							{ href: "#",
+								tabIndex: "1",
 								className: "btn btn-outline-primary btn-sm",
 								onClick: this.clearFilter },
 							"Clear"
@@ -18682,6 +18687,7 @@ var Filter = function (_React$Component) {
 					"form",
 					{ className: "form-inline mb-3" },
 					_react2.default.createElement("input", { value: this.props.currentKeyword,
+						tabIndex: "1",
 						autoFocus: true,
 						className: "form-control col-sm-12 input-lg", type: "text",
 						placeholder: "Location filter",
@@ -18748,6 +18754,12 @@ var Map = function (_React$Component) {
 
 		_this.initMap = function () {
 			var vietnam = { lat: 16.4498, lng: 107.5624 };
+
+			if (typeof google === "undefined") {
+				(0, _sweetalert2.default)("Could not load Google Map.", "Please reload page or try again later", "error");
+				return;
+			}
+
 			_this.map = new google.maps.Map(document.getElementById('map'), {
 				zoom: 5,
 				center: vietnam
@@ -18762,6 +18774,12 @@ var Map = function (_React$Component) {
 			var coordinates = (0, _misc.getLongLat)(place);
 			var position = { lat: coordinates[0], lng: coordinates[1] };
 			var map = _this.map;
+
+			if (typeof google === "undefined") {
+				(0, _sweetalert2.default)("Could not load Google Map.", "Please reload page or try again later", "error");
+				return;
+			}
+
 			var marker = new google.maps.Marker({
 				position: position,
 				map: map
@@ -18812,7 +18830,7 @@ var Map = function (_React$Component) {
 			var mapHeight = _misc.isDesktop ? $(window).height() - _misc.navbarHeight - _misc.marginBottom : "auto";
 			var styles = { height: mapHeight };
 
-			return _react2.default.createElement("div", { className: "shadow mb-4", id: "map", style: styles });
+			return _react2.default.createElement("div", { role: "application", className: "shadow mb-4", id: "map", style: styles });
 		}
 	}, {
 		key: "componentDidMount",
@@ -18881,14 +18899,33 @@ var PopularPlaces = function (_React$Component) {
 	_inherits(PopularPlaces, _React$Component);
 
 	function PopularPlaces() {
+		var _ref;
+
+		var _temp, _this, _ret;
+
 		_classCallCheck(this, PopularPlaces);
 
-		return _possibleConstructorReturn(this, (PopularPlaces.__proto__ || Object.getPrototypeOf(PopularPlaces)).apply(this, arguments));
+		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+			args[_key] = arguments[_key];
+		}
+
+		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = PopularPlaces.__proto__ || Object.getPrototypeOf(PopularPlaces)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+			tooltipInitiated: false
+		}, _this.initTooltip = function () {
+			if (!_this.state.tooltipInitiated) {
+				var iconInfoExists = !!_this.iconInfo;
+				if (iconInfoExists) {
+					$(_this.iconInfo).tooltip();
+					_this.setState({ tooltipInitiated: true });
+				}
+			}
+		}, _temp), _possibleConstructorReturn(_this, _ret);
 	}
 
 	_createClass(PopularPlaces, [{
 		key: "render",
 		value: function render() {
+			var _this2 = this;
 
 			if (this.props.popularPlaces.length === 0) return null;
 
@@ -18898,7 +18935,7 @@ var PopularPlaces = function (_React$Component) {
 			var placeNodes = this.props.popularPlaces.map(function (item) {
 				return _react2.default.createElement(
 					"li",
-					{ key: item.id, className: "list-group-item venue animated fadeIn" },
+					{ key: item.id, tabIndex: "1", className: "list-group-item venue animated fadeIn" },
 					_react2.default.createElement(
 						"div",
 						{ classID: "name" },
@@ -18916,6 +18953,10 @@ var PopularPlaces = function (_React$Component) {
 				);
 			});
 
+			var refIconInfo = function refIconInfo(el) {
+				return _this2.iconInfo = el;
+			};
+
 			return _react2.default.createElement(
 				"div",
 				{ className: "popular-places" },
@@ -18923,7 +18964,10 @@ var PopularPlaces = function (_React$Component) {
 					"h5",
 					null,
 					"Popular places in ",
-					this.props.selectedCity
+					this.props.selectedCity,
+					_react2.default.createElement("img", { tabIndex: "1", ref: refIconInfo, className: "icon-info", title: "Data is retrieved from Foursquare",
+						src: "/open-iconic/svg/info.svg",
+						alt: "Info icon" })
 				),
 				_react2.default.createElement(
 					"ul",
@@ -18931,6 +18975,11 @@ var PopularPlaces = function (_React$Component) {
 					placeNodes
 				)
 			);
+		}
+	}, {
+		key: "componentDidUpdate",
+		value: function componentDidUpdate() {
+			this.initTooltip();
 		}
 	}]);
 

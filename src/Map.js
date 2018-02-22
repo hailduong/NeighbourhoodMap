@@ -17,7 +17,7 @@ export default class Map extends React.Component {
 		const styles = {height: mapHeight};
 
 		return (
-			<div className="shadow mb-4" id="map" style={styles}></div>
+			<div role='application' className="shadow mb-4" id="map" style={styles}></div>
 		)
 	}
 
@@ -27,6 +27,12 @@ export default class Map extends React.Component {
 
 	initMap = () => {
 		const vietnam = {lat: 16.4498, lng: 107.5624};
+
+		if (typeof google === "undefined") {
+			swal("Could not load Google Map.", "Please reload page or try again later", "error");
+			return
+		}
+
 		this.map = new google.maps.Map(document.getElementById('map'), {
 			zoom: 5,
 			center: vietnam
@@ -41,6 +47,12 @@ export default class Map extends React.Component {
 		const coordinates = getLongLat(place);
 		const position = {lat: coordinates[0], lng: coordinates[1]};
 		const map = this.map;
+
+		if (typeof google === "undefined") {
+			swal("Could not load Google Map.", "Please reload page or try again later", "error");
+			return
+		}
+		
 		const marker = new google.maps.Marker({
 			position: position,
 			map: map

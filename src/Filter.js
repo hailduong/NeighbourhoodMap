@@ -30,7 +30,7 @@ export default class Filter extends React.Component {
 		const currentKeyword = this.props.currentKeyword;
 		const matchPlaces = getMatchedPlaces(currentKeyword);
 
-		const filteredPlaceNodes = matchPlaces.map(item => <li key={item} onClick={this.handleLocationClick}
+		const filteredPlaceNodes = matchPlaces.map(item => <li key={item} tabIndex="1" onClick={this.handleLocationClick}
 															   className="list-group-item">{item}</li>);
 
 		const clearBtnIsHidden = !this.props.currentKeyword;
@@ -42,12 +42,14 @@ export default class Filter extends React.Component {
 					</div>
 					<div className={`col-4 text-right animated fadeIn ${clearBtnIsHidden ? 'hidden' : ""}`}>
 						<a href="#"
+						   tabIndex="1"
 						   className="btn btn-outline-primary btn-sm"
 						   onClick={this.clearFilter}>Clear</a>
 					</div>
 				</div>
 				<form className="form-inline mb-3">
 					<input value={this.props.currentKeyword}
+						   tabIndex="1"
 						   autoFocus={true}
 						   className="form-control col-sm-12 input-lg" type="text"
 						   placeholder="Location filter"

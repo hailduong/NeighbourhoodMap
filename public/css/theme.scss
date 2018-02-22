@@ -9,8 +9,8 @@ body{ background:#f6f9fc; }
 .neighborhood-map{
     &__navbar{
         background:linear-gradient(to right, #4caf50, #cddc39);
-
-        .navbar-brand{ color:#fff; font-weight:100; text-transform:uppercase;
+        h1{ margin-bottom:0; line-height:20px; }
+        .navbar-brand{ color:#fff; font-weight:100; text-transform:uppercase; transition:color 0.3s;
             strong{ font-weight:700; }
         }
     }
@@ -23,6 +23,7 @@ body{ background:#f6f9fc; }
         .popular-places{
             .list-group{ overflow:auto; }
             .list-group-item{ border-left:0; border-right:0; }
+            .icon-info{ margin-left:10px; border:1px solid black; border-radius:50%; padding:4px; opacity:0.5; cursor:pointer }
         }
     }
     &__main{
