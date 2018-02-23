@@ -18635,8 +18635,7 @@ module.exports = camelize;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+exports.default = Nav;
 
 var _react = __webpack_require__(0);
 
@@ -18644,49 +18643,26 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Nav = function (_React$Component) {
-	_inherits(Nav, _React$Component);
-
-	function Nav() {
-		_classCallCheck(this, Nav);
-
-		return _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).apply(this, arguments));
-	}
-
-	_createClass(Nav, [{
-		key: "render",
-		value: function render() {
-			return _react2.default.createElement(
-				"nav",
-				{ role: "navigation", className: "navbar navbar-expand-lg navbar-light neighborhood-map__navbar shadow mb-4" },
+function Nav() {
+	return _react2.default.createElement(
+		"nav",
+		{ role: "navigation", className: "navbar navbar-expand-lg navbar-light neighborhood-map__navbar shadow mb-4" },
+		_react2.default.createElement(
+			"h1",
+			null,
+			_react2.default.createElement(
+				"a",
+				{ tabIndex: "-1", className: "navbar-brand", href: "#" },
+				"Neighbourhood",
 				_react2.default.createElement(
-					"h1",
+					"strong",
 					null,
-					_react2.default.createElement(
-						"a",
-						{ tabIndex: "-1", className: "navbar-brand", href: "#" },
-						"Neighbourhood",
-						_react2.default.createElement(
-							"strong",
-							null,
-							"Map"
-						)
-					)
+					"Map"
 				)
-			);
-		}
-	}]);
-
-	return Nav;
-}(_react2.default.Component);
-
-exports.default = Nav;
+			)
+		)
+	);
+}
 
 /***/ }),
 /* 31 */
@@ -18761,7 +18737,7 @@ var Filter = function (_React$Component) {
 				);
 			});
 
-			var clearBtnIsHidden = !this.props.currentKeyword;
+			var clearBtnIsHidden = !currentKeyword;
 			return _react2.default.createElement(
 				"div",
 				{ className: "filter" },
@@ -18793,7 +18769,7 @@ var Filter = function (_React$Component) {
 				_react2.default.createElement(
 					"form",
 					{ className: "form-inline mb-3" },
-					_react2.default.createElement("input", { value: this.props.currentKeyword,
+					_react2.default.createElement("input", { value: currentKeyword,
 						tabIndex: "1",
 						autoFocus: true,
 						className: "form-control col-sm-12 input-lg", type: "text",
@@ -18911,18 +18887,22 @@ var Map = function (_React$Component) {
 					marker.setAnimation(null);
 				}, 1000);
 
-				// Fetch information of this place
-				fetch("https://api.foursquare.com/v2/venues/search?" + params).then(function (data) {
-					return data.json();
-				}).then(function (data) {
-					_this.setAppState({
-						popularPlaces: data.response.venues,
-						selectedCity: place
+				if (!!fetch) {
+					// Fetch information of this place
+					fetch("https://api.foursquare.com/v2/venues/search?" + params).then(function (data) {
+						return data.json();
+					}).then(function (data) {
+						_this.setAppState({
+							popularPlaces: data.response.venues,
+							selectedCity: place
+						});
+					}).catch(function (error) {
+						console.log('ERROR: ', error);
+						(0, _sweetalert2.default)("Oops", "Failed to get data for this location. Please try again", "error");
 					});
-				}).catch(function (error) {
-					console.log('ERROR: ', error);
-					(0, _sweetalert2.default)("Oops", "Failed to get data for this location. Please try again", "error");
-				});
+				} else {
+					(0, _sweetalert2.default)("Your browser does not support fetching data.", "Please upgrade to the latest version!", "error");
+				}
 			});
 		};
 
@@ -18939,18 +18919,15 @@ var Map = function (_React$Component) {
 	}
 
 	_createClass(Map, [{
-		key: "render",
-		value: function render() {
-			var mapHeight = _misc.isDesktop ? $(window).height() - _misc.navbarHeight - _misc.marginBottom : "auto";
-			var styles = { height: mapHeight };
-
-			return _react2.default.createElement("div", { role: "application", className: "shadow mb-4", id: "map", style: styles });
-		}
-	}, {
 		key: "componentDidMount",
 		value: function componentDidMount() {
 			// Expose the init map function
 			window.initMap = this.initMap;
+		}
+	}, {
+		key: "componentDidUpdate",
+		value: function componentDidUpdate() {
+			this.setMarkers();
 		}
 	}, {
 		key: "setMarkers",
@@ -18976,9 +18953,12 @@ var Map = function (_React$Component) {
 			}, 300);
 		}
 	}, {
-		key: "componentDidUpdate",
-		value: function componentDidUpdate() {
-			this.setMarkers();
+		key: "render",
+		value: function render() {
+			var mapHeight = _misc.isDesktop ? $(window).height() - _misc.navbarHeight - _misc.marginBottom : "auto";
+			var styles = { height: mapHeight };
+
+			return _react2.default.createElement("div", { role: "application", className: "shadow mb-4", id: "map", style: styles });
 		}
 	}]);
 

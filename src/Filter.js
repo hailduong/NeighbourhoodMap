@@ -33,7 +33,7 @@ export default class Filter extends React.Component {
 		const filteredPlaceNodes = matchPlaces.map(item => <li key={item} tabIndex="1" onClick={this.handleLocationClick}
 															   className="list-group-item">{item}</li>);
 
-		const clearBtnIsHidden = !this.props.currentKeyword;
+		const clearBtnIsHidden = !currentKeyword;
 		return (
 			<div className="filter">
 				<div className="row mb-2">
@@ -48,7 +48,7 @@ export default class Filter extends React.Component {
 					</div>
 				</div>
 				<form className="form-inline mb-3">
-					<input value={this.props.currentKeyword}
+					<input value={currentKeyword}
 						   tabIndex="1"
 						   autoFocus={true}
 						   className="form-control col-sm-12 input-lg" type="text"

@@ -13,13 +13,13 @@ export default class Map extends React.Component {
 		this.setMarkerTimeout = null;
 	}
 
-	render() {
-		const mapHeight = isDesktop ? $(window).height() - navbarHeight - marginBottom : "auto";
-		const styles = {height: mapHeight};
+	componentDidMount() {
+		// Expose the init map function
+		window.initMap = this.initMap;
+	}
 
-		return (
-			<div role='application' className="shadow mb-4" id="map" style={styles}></div>
-		)
+	componentDidUpdate() {
+		this.setMarkers();
 	}
 
 	setAppState = (state) => {
@@ -78,31 +78,31 @@ export default class Map extends React.Component {
 				marker.setAnimation(null)
 			}, 1000);
 
-			// Fetch information of this place
-			fetch(`https://api.foursquare.com/v2/venues/search?${params}`)
-				.then(data => data.json())
-				.then((data) => {
-						this.setAppState({
-							popularPlaces: data.response.venues,
-							selectedCity: place
-						});
-					}
-				)
-				.catch(error => {
-					console.log('ERROR: ', error);
-					swal("Oops", "Failed to get data for this location. Please try again", "error")
-				})
+			if (!!fetch) {
+				// Fetch information of this place
+				fetch(`https://api.foursquare.com/v2/venues/search?${params}`)
+					.then(data => data.json())
+					.then((data) => {
+							this.setAppState({
+								popularPlaces: data.response.venues,
+								selectedCity: place
+							});
+						}
+					)
+					.catch(error => {
+						console.log('ERROR: ', error);
+						swal("Oops", "Failed to get data for this location. Please try again", "error")
+					})
+			 } else {
+				swal("Your browser does not support fetching data.", "Please upgrade to the latest version!", "error")
+			}
+			
 		})
 	};
 
 	clearAllMarkers = () => {
 		this.markers.forEach(marker => marker.setMap(null))
 	};
-
-	componentDidMount() {
-		// Expose the init map function
-		window.initMap = this.initMap;
-	}
 
 	setMarkers() {
 
@@ -123,7 +123,12 @@ export default class Map extends React.Component {
 		}, 300)
 	}
 
-	componentDidUpdate() {
-		this.setMarkers();
+	render() {
+		const mapHeight = isDesktop ? $(window).height() - navbarHeight - marginBottom : "auto";
+		const styles = {height: mapHeight};
+
+		return (
+			<div role='application' className="shadow mb-4" id="map" style={styles}></div>
+		)
 	}
 } 
