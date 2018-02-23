@@ -9,6 +9,7 @@ export default class Map extends React.Component {
 	constructor() {
 		super();
 		this.markers = [];
+		this.matchedPlaces = Object.keys(placesList); // Since we set it to all places for the initial state
 		this.setMarkerTimeout = null;
 	}
 
@@ -52,16 +53,16 @@ export default class Map extends React.Component {
 			swal("Could not load Google Map.", "Please reload page or try again later", "error");
 			return
 		}
-		
+
 		const marker = new google.maps.Marker({
 			position: position,
-			map: map
+			map: map,
+			animation: google.maps.Animation.DROP
 		});
 
 		this.markers.push(marker);
 
-		// Bind event lisenters
-
+		// Bind event listeners
 		const params = $.param({
 			client_id: "HFFF3KWZJWWRQFVE5MG0HLB5MGLBKKPLZLNCBSQHS4IHU12T",
 			client_secret: "U21OHD13QXZ0FUO0AXU4VQ5CTNJ5VAIF3TIMIWISTNJWO00N",
@@ -71,6 +72,12 @@ export default class Map extends React.Component {
 
 		// TODO: Scroll down to the detail section on mobile
 		marker.addListener('click', () => {
+			// Bounce the marker
+			marker.setAnimation(google.maps.Animation.BOUNCE);
+			setTimeout(() => {
+				marker.setAnimation(null)
+			}, 1000);
+
 			// Fetch information of this place
 			fetch(`https://api.foursquare.com/v2/venues/search?${params}`)
 				.then(data => data.json())
@@ -100,14 +107,19 @@ export default class Map extends React.Component {
 	setMarkers() {
 
 		// Set timeout to add a little delay when users type.
-
 		if (!!this.setMarkerTimeout) clearTimeout(this.setMarkerTimeout);
 
 		this.setMarkerTimeout = setTimeout(() => {
-			this.clearAllMarkers();
 			const currentKeyword = this.props.currentKeyword;
 			const matchedPlaces = getMatchedPlaces(currentKeyword);
-			matchedPlaces.forEach(place => this.setMarker(place))
+			const matchedPlacesHaveChanged = JSON.stringify(matchedPlaces) !== JSON.stringify(this.matchedPlaces);
+			this.matchedPlaces = matchedPlaces;
+
+			// Only set the markers, if they have changed.
+			if (matchedPlacesHaveChanged) {
+				this.clearAllMarkers();
+				matchedPlaces.forEach(place => this.setMarker(place))
+			}
 		}, 300)
 	}
 
