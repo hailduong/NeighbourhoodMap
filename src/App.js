@@ -7,6 +7,11 @@ import PopularPlaces from "./PopularPlaces";
 
 
 class App extends React.Component {
+	
+	constructor(){
+		super();
+		this.initServiceWorker();
+	}
 
 	state = {
 		currentKeyword: "",
@@ -18,6 +23,19 @@ class App extends React.Component {
 		this.setState(state);
 	};
 
+	initServiceWorker() {
+
+		// Check if serviceWorker is available;
+		if (!navigator.serviceWorker) return;
+
+		// Register serviceWorker
+		navigator.serviceWorker.register('/sw.js', {scope: "/"}).then((reg) => {
+			console.log('Service Worker Registered');
+		}).catch((err) => {
+			console.log('Failed to register a Service Worker', err)
+		})
+	}
+	
 	render() {
 
 		return (

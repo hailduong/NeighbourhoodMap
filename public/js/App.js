@@ -825,26 +825,42 @@ var App = function (_React$Component) {
 	_inherits(App, _React$Component);
 
 	function App() {
-		var _ref;
-
-		var _temp, _this, _ret;
-
 		_classCallCheck(this, App);
 
-		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-			args[_key] = arguments[_key];
-		}
+		var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
-		return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = App.__proto__ || Object.getPrototypeOf(App)).call.apply(_ref, [this].concat(args))), _this), _this.state = {
+		_this.state = {
 			currentKeyword: "",
 			popularPlaces: [],
 			selectedCity: ""
-		}, _this.setAppState = function (state) {
+		};
+
+		_this.setAppState = function (state) {
 			_this.setState(state);
-		}, _temp), _possibleConstructorReturn(_this, _ret);
+		};
+
+		_this.initServiceWorker();
+		return _this;
 	}
 
 	_createClass(App, [{
+		key: "initServiceWorker",
+		value: function initServiceWorker() {
+
+			// Check if serviceWorker is available;
+			if (!navigator.serviceWorker) return;
+
+			// Register serviceWorker
+			navigator.serviceWorker.register('/sw.js', { scope: "/" }).then(function (reg) {
+				console.log('Service Worker Registered');
+				//reg.addEventListener('message', (event) => {
+				//	console.log(event)
+				//})
+			}).catch(function (err) {
+				console.log('Failed to register a Service Worker', err);
+			});
+		}
+	}, {
 		key: "render",
 		value: function render() {
 
